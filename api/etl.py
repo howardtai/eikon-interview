@@ -13,17 +13,17 @@ _DB_HOST = "db"  # name of the db container
 _DB_PORT = 5432  # postgresql default port
 
 _TABLE_DTYPES = {
-    "name": types.TEXT(),
-    "experiment_compound_ids": types.ARRAY(types.BIGINT()),
-    "email": types.TEXT(),
-    "signup_date": types.DATE(),
+    "compound_id": types.BIGINT(),
     "compound_name": types.TEXT(),
     "compound_structure": types.TEXT(),
-    "user_id": types.BIGINT(),
+    "email": types.TEXT(),
+    "experiment_compound_ids": types.ARRAY(types.BIGINT()),
+    "experiment_count": types.BIGINT(),
     "experiment_id": types.BIGINT(),
     "experiment_run_time": types.BIGINT(),
-    "experiment_count": types.BIGINT(),
-    "compound_id": types.BIGINT(),
+    "name": types.TEXT(),
+    "signup_date": types.DATE(),
+    "user_id": types.BIGINT(),
     "usage_count": types.BIGINT(),
 }
 
