@@ -1,61 +1,35 @@
-# Backend Engineering Take-Home Challenge
-
-### Introduction
-In this challenge, you will be tasked with creating a simple ETL pipeline that can be triggered via an API call. You will be provided with a set of CSV files that you will need to process, derive some features from, and then upload into a database table.
+# Eikon Takehome
 
 ### Requirements
-- Python 3.7+
-- Docker
-- PostgreSQL
+This application uses docker-compose to create a dockerized ETL app. Make sure to install docker-compose. 
 
-### Challenge
-1.  Create a Dockerized application that can be started with a single `docker run` command.
+Use `chmod +x` to set the scripts under `scripts/` :  [ `build_and_run.sh`, `trigger_etl.sh`, `run_queries.sh` ] as executable.
 
-2. The application should expose an API endpoint that triggers an ETL process.
+Navigate working directory to this folder to begin.
 
-3. The ETL process should:
-- Load CSV files from the given data directory.
- - Process these files to derive some simple features.
- - Upload the processed data into a **postgres** table.
+### Build and Run
 
-4.  The application should be built using Python and any tooling you like for coordinating the workflow and fronting the api server
+Run the following to bring up the application, which will then be served at `http://localhost:80`.
+```bash
+./scripts/build_and_run.sh
+```
 
-### Data
-You will find three CSV files in the `data`  directory:
+### Trigger the ETL Process
 
-- `users.csv`: Contains user data with the following columns: `user_id`, `name`, `email`,`signup_date`.
+After the application is running, run the following to trigger the ETL process. 
 
-- `user_experiments.csv`: Contains experiment data with the following columns: `experiment_id`, `user_id`, `experiment_compound_ids`, `experiment_run_time`. The `experiment_compound_ids` column contains a semicolon-separated list of compound IDs.
+```bash
+./scripts/trigger_etl.sh
+```
 
+This will send a POST request to the `/trigger_etl` api, starting the ETL process. The application will load the CSV files from the `data` directory, process them, and upload the processed data into the PostgreSQL database.
 
-- `compounds.csv`: Contains compound data with the following columns: `compound_id`, `compound_name`, `compound_structure`.
+### Execute Database Queries
 
+After the ETL process is completed, run the following to obtain database queries that provides the requested features:
 
-## Feature Derivation
-From the provided CSV files, derive the following features:
+```bash
+./scripts/execute_queries.sh
+```
 
-1. Total experiments a user ran.
-2. Average experiments amount per user.
-3. User's most commonly experimented compound.
-
-## Deliverables
-Please provide the following in a GITHUB REPOSITORY.
-
-1. A Dockerfile that sets up the environment for your application.
-2. A requirements.txt file with all the Python dependencies.
-3. A Python script that sets up the API and the ETL process.
-4. A brief README explaining how to build and run your application, and how to trigger the ETL process.
-
-
-Please also provide a script that builds, and runs the docker container. 
-You should also provide a script that scaffolds how a user can run the ETL process. This can be `curl` or something else.
-Finally, provide a script that queries the database and showcases that it has been populated with the desired features.
-
-
-## Evaluation
-Your solution will be evaluated on the following criteria:
-
-Code quality and organization.
-Proper use of Python and Docker.
-Successful execution of the ETL process.
-Accuracy of the derived features.
+This will send GET requests to the `/total_experiments`, `/average_experiments`, and `/most_common_compound` api and print the responses. These responses contain the total number of experiments each user has run, the average number of experiments per user, and the most commonly used compound, respectively.
