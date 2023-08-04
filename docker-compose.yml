@@ -1,5 +1,11 @@
 version: '3'
 services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: db_name
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_password
   api:
     build: .
     ports:
@@ -7,3 +13,5 @@ services:
     volumes:
       - ./api:/app/api
       - ./data:/app/data
+    depends_on:
+     - db
